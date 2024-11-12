@@ -4,27 +4,16 @@ import { createAdminClient, createSessionClient } from "@/lib/appwrite";
 import { InputFile } from "node-appwrite/file";
 import { appwriteConfig } from "@/lib/appwrite/config";
 import { ID, Models, Query } from "node-appwrite";
-import {
-  constructFileUrl,
-  getFileType,
-  parseStringify,
-  handleError,
-} from "@/lib/utils";
+import { constructFileUrl, getFileType, handleError, parseStringify } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "@/lib/actions/user.action";
-import {
-  DeleteFileProps,
-  GetFilesProps,
-  RenameFileProps,
-  UpdateFileUsersProps,
-  UploadFileProps,
-} from "@/models/types";
 
 export const uploadFile = async ({
   file,
   ownerId,
   accountId,
   path,
+  bucketField
 }: UploadFileProps) => {
   const { storage, databases } = await createAdminClient();
 
@@ -47,6 +36,7 @@ export const uploadFile = async ({
       accountId,
       users: [],
       bucketFileId: bucketFile.$id,
+      bucketField
     };
 
     const newFile = await databases
