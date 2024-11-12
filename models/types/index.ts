@@ -30,3 +30,9 @@ export interface DeleteFileProps {
   bucketFileId: string;
   path: string;
 }
+
+export interface ActionType {
+  label: string;
+  icon: string;
+  value: string;
+}

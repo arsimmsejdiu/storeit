@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
 import OtpModal from "./OtpModal";
+import { createAccount, signInUser } from "@/lib/actions/user.action";
 
 const AuthForm = ({ type }: { type: FormType }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -40,11 +41,16 @@ const AuthForm = ({ type }: { type: FormType }) => {
     setErrorMessage("");
 
     try {
-      //  TODO: Implement API call
-      console.log(values);
-      setAccountId("123");
+      const user =
+        type === "sign-up"
+          ? await createAccount({
+              fullName: values.fullName || "",
+              email: values.email,
+            })
+          : await signInUser({ email: values.email });
+      setAccountId(user.accountId);
     } catch {
-      setErrorMessage("Something went wrong");
+      setErrorMessage("Failed to create account. Please try again.");
     } finally {
       setIsLoading(false);
     }
