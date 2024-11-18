@@ -18,7 +18,6 @@ declare interface ActionType {
     ownerId: string;
     accountId: string;
     path: string;
-    bucketField: string; 
   }
   declare interface GetFilesProps {
     types: FileType[];
